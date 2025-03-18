@@ -15,7 +15,7 @@
 
 
 
-
+        //Navigation property
         public ICollection<Tag> Tags{ get; set; }
 
 
