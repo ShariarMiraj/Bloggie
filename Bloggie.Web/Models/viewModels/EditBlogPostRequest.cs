@@ -2,8 +2,11 @@
 
 namespace Bloggie.Web.Models.viewModels
 {
-    public class AddBlogPostRrequest
+    public class EditBlogPostRequest
     {
+
+
+        public Guid Id { get; set; }
         public string Heading { get; set; }
         public string PageTittle { get; set; }
         public string Content { get; set; }
@@ -17,7 +20,7 @@ namespace Bloggie.Web.Models.viewModels
 
         //Display Tags
         public IEnumerable<SelectListItem> Tags { get; set; }
-        //Collect Tag
+       //Collect Tag
         public string[] SelectedTags { get; set; } = Array.Empty<string>();
 
     }

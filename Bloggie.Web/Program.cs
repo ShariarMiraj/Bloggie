@@ -13,6 +13,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieDbConnect
 
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
+builder.Services.AddScoped<IImageRespository, CloudinaryImageRepository>();
 
 
 
