@@ -21,14 +21,14 @@ namespace Bloggie.Web.Controllers
         {
             //call a repository
 
-            var ImageUrl = await imageRespository.UploadAsync(file);
+            var imageUrl = await imageRespository.UploadAsync(file);
 
-            if (ImageUrl == null)
+            if (imageUrl == null)
             {
                 return Problem("Something went wrong", null, (int)HttpStatusCode.InternalServerError);
             }
 
-            return new JsonResult (new {link = ImageUrl});
+            return new JsonResult (new {link = imageUrl});
 
 
         }

@@ -15,39 +15,57 @@
     {
         <form method="post"> 
 
-        <div class="mb-3">
-            <label class="form-label">Id</label>
-            <input type="text" class="form-control" id="id" asp-for="Id" />
+            <div class="mb-3">
+                <label class="form-label">Id</label>
+                <input type="text" class="form-control" id="id" asp-for="Id" />
 
-        </div>
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">Heading</label>
-            <input type="text" class="form-control" id="heading" asp-for="Heading" readonly />
-        </div>
-
-
-        <div class="mb-3">
-            <label class="form-label">PageTittle</label>
-            <input type="text" class="form-control" id="pagetittle" asp-for="PageTittle " />
-
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Heading</label>
+                <input type="text" class="form-control" id="heading" asp-for="Heading" readonly />
+            </div>
 
 
+            <div class="mb-3">
+                <label class="form-label">PageTittle</label>
+                <input type="text" class="form-control" id="pagetittle" asp-for="PageTittle " />
 
-        <div class="mb-3">
-            <label class="form-label">Content</label>
-            <textarea class="form-control" id="content" asp-for="Content"></textarea>
-
-        </div>
+            </div>
 
 
 
-        <div class="mb-3">
-            <label class="form-label">Short Description</label>
-            <input type="text" class="form-control" id="shortdescription" asp-for="ShortDescription" />
+            <div class="mb-3">
+                <label class="form-label">Content</label>
+                <textarea class="form-control" id="content" asp-for="Content"></textarea>
 
-        </div>
+            </div>
+
+
+
+            <div class="mb-3">
+                <label class="form-label">Short Description</label>
+                <input type="text" class="form-control" id="shortdescription" asp-for="ShortDescription" />
+
+            </div>
+
+
+
+            <div class="mb-3">
+                <label class="form-label">Featured Image Upload</label>
+                <input type="file" id="featuredimageupload" class="form-control" />
+
+                @if(Model.FeaturedImageUrl !=null)
+                {
+                    <img src="@Model.FeaturedImageUrl" id="featuredImageDisplay" style="display:block; width:300px;" />
+
+                }
+                else
+                {
+                    <img src="" id="featuredImageDisplay" style="display:none; width:300px;" />
+                }
+               
+            </div>
 
 
 
@@ -131,6 +149,38 @@
 
 @section Scripts {
     <script>
-        var editor = new FroalaEditor('#content');
+         var editor = new FroalaEditor('#content' ,{
+            imageUploadURL: '/api/images'
+        });
+
+        const featuredloadElement = document.getElementById('featuredimageupload');
+        const featuredImageUrlElement = document.getElementById('featuredimageUrl');
+        const featuredImageDisplayElement = document.getElementById('featuredImageDisplay');
+
+
+        async function uploadFeaturedImage(e){
+            console.log(e.target.files[0]);
+
+            let data = new FormData();
+            data.append('file', e.target.files[0]);
+
+
+            await fetch('/api/images' , {
+                method: 'POST',
+                headers: {
+                    'Aceept': '*/*',
+                },
+                body: data
+            }).then(response => response.json())
+                    .then(result =>{
+                       // console.log(result);
+                       featuredImageUrlElement.value = result.link;
+                       featuredImageDisplayElement.src = result.link;
+                       featuredImageDisplayElement.style.display='block';
+                    });
+
+        }
+
+        featuredloadElement.addEventListener('change' , uploadFeaturedImage);
     </script>
 }
